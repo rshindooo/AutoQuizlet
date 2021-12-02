@@ -2,13 +2,12 @@ import time
 import pynput.mouse
 import keyboard
 from pynput.mouse import Button, Controller
-from pynput import keyboard
 import sys
 def exit():
     while True:
         if keyboard.is_pressed("x"):
-            print('es')
-            sys.exit()
+            print('STOP THE CODE')
+            sys.exit(0)
 mouse= Controller()
 mouse.position=(0,10)
 
