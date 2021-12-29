@@ -1,8 +1,8 @@
 import time
-import pynput.mouse
+#import pynput.mouse
 import keyboard
 import pyautogui
-from pynput.mouse import Button, Controller
+#from pynput.mouse import Button, Controller
 import sys
 def mains():
     #while True:
@@ -12,10 +12,10 @@ def mains():
         if keyboard.is_pressed("s"):
             autoSign()
 mains()
-mouse= Controller()
-mouse.position=(0,10)
+#mouse= Controller()
+#mouse.position=(0,10)
 e_num=0
-x="C:/Python Stuff/{}"
+currentPath="C:/Python Stuff/{}"  
 def email_gen(og):
     global e_num
     e_num +=1
@@ -23,9 +23,6 @@ def email_gen(og):
                                             e_n=e_num, afterat=og.split('@',1)[1])
     print(testi)
     return(0)
-"""
-x      xxxxx
-xxxxxxxx"""
 email_gen("test@gmail.com")
 email_gen("test@gmail.com")
 
