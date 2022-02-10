@@ -17,17 +17,16 @@ def email_gen(og):
                                             e_n=e_num, afterat=og.split('@',1)[1])
     return(testi)
 email_gen("test@gmail.com")
-
 def autoSign(sampleE):
         pyautogui.move(50,0)
         for i in ("signup1.png","month.png","monthS.png", "day.png","dayS.png","year.png","yearS.png","email.png","password.png","face.png","signup.png"):
             try:
-                x,y=pyautogui.locateCenterOnScreen(currentPath.format(i))
+                x,y=pyautogui.locateCenterOnScreen(currentPath.format(i), confidence=0.7)
             except TypeError:
                 print("where")
             else:
                 
-                time.sleep(.17)
+                time.sleep(.15)
                 pyautogui.click(currentPath.format(i))
                 print(i)
                 if(i=="signup1.png"):
@@ -40,8 +39,6 @@ def autoSign(sampleE):
                     time.sleep(1)
                     keyboard.write("u")
                     time.sleep(.5)
-
-
 def mains():
     letters = string.ascii_lowercase
     rGen= ( ''.join(random.choice(letters) for i in range(10)) )
