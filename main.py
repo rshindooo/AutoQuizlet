@@ -1,33 +1,21 @@
 
-# import webdriver
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time, sys, keyboard,string
 import random
-# create webdriver object
 driver = webdriver.Chrome("window-size=1200x600")
-  
-# get geeksforgeeks.org
+
 driver.get("https://quizlet.com/goodbye")
-#driver.add_argument("window-size=1200x600")
-# get element 
+
 def email_gen():
     return ( ''.join(random.choice(string.ascii_lowercase) for i in range(10)) )+"@gmail.com"
 
-for i in ["/html/body/div[3]/div/header/div/div[3]/div[3]/button",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[1]/select",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[1]/select/option[13]",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[2]/select",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[2]/select/option[8]",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select",
-          "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select/option[28]",
-
-          ]:
-                element = driver.find_element(By.XPATH,i)
-                element.click()
+for i in ["/html/body/div[3]/div/header/div/div[3]/div[3]/button", "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[1]/select", "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[1]/select/option[13]", "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[2]/select","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[2]/select/option[8]","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select/option[28]",]:
+    element = driver.find_element(By.XPATH,i)
+    element.click()
 
 element = driver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[2]/label/div/input")
 element.send_keys(email_gen())
@@ -38,7 +26,6 @@ element.click()
 
 element = driver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/button")
 while(element.get_attribute('disabled')):
-       #print("wait")
        pass
 element.click()
 driver.switch_to.new_window()
