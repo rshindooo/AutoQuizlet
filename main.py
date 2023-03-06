@@ -86,4 +86,6 @@ driverMAIN.refresh()
 while True:
     if (keyboard.is_pressed("x") and keyboard.is_pressed("z")):
         print('STOP THE CODE')
+        driverMAIN.quit()
+        driverALT.quit()
         sys.exit(0)
