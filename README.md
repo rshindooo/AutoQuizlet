@@ -3,7 +3,9 @@
 Make infinite Quizlet accounts automatically,  I miss Slader too. With this utility, you can make
 them pay UNLIMITED QUESTIONS at a time
 
-HOLY FUCK ITS ***IMPROVED*** V3:
+HOLY FUCK ITS ***IMPROVED*** V3.0.1:
+
+(V.3.0.1 update: Fixed bug that causes excessive temp file generation)
 
 ***ONLY USES 1 FILE*** 
 
