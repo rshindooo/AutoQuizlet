@@ -1,7 +1,7 @@
 # AutoQuizlet
 
 Make infinite Quizlet accounts automatically,  I miss Slader too. With this utility, you can make
-them pay UNLIMITED QUESTIONS at a time
+them pay UNLIMITED QUESTIONS at a time (like srsly fuck quizlet)
 
 HOLY FUCK ITS ***IMPROVED*** V3.0.1:
 
@@ -21,4 +21,3 @@ Lex Bayer can suck on my sloppy jaloppy for making me do this
 
 :tf:
 
-EDIT: PIECE OF TRASH QUIZLET ONLY DOES 1 FREE QUESTION SMH)
