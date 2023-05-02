@@ -19,6 +19,8 @@ them pay UNLIMITED QUESTIONS at a time (like srsly fuck quizlet)
 * Learned a lot
 * Updated the README
 * WONT CRASH ANYMORE (I hope)
+* Will now auto copy for you 
+* EXE is a WIP
 # Instructions
 Dowload this by clicking the green code button and downloading ZIP
 
