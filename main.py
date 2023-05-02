@@ -2,87 +2,81 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time, sys, keyboard,string
-import random
-
-def attemptClick(xPath,whichDriver):
-    try:
-        element = whichDriver.find_element(By.XPATH,xPath)
-    except:
-        attemptClick(xPath,whichDriver)
+import sys, keyboard
+from selenium.webdriver.support.ui import Select
+import unittest
+from selenium.webdriver.chrome.options import Options
+import pyperclip as pc
+def signUp(driverTarget):
+    if(driverTarget == driverALT):
+        useEmail = emailALT
     else:
-        element.click()
-def signIn(whichDriver,whichEmail,startSite,xOUT,SiteAfterLog,SignUpInstead):
-    whichDriver.get(startSite)
-    if SignUpInstead:
-        for i in ["/html/body/div[3]/div/header/div/div[3]/div[3]/button","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[1]/select", "/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[1]/select/option[13]","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[2]/select","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[2]/select/option[8]","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select","/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[1]/div/div/div/div[3]/select/option[28]",]:
-            attemptClick(i,whichDriver)
-        try:
-            element = whichDriver.find_element(By.XPATH,"/html/body/div[8]/div[2]/div/div[1]/div/div[2]/div/button[2]")
-        except:
-            pass
-        else:
-            element.click()
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[2]/label/div/input")
-        element.send_keys(whichEmail)
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div[3]/label/div/input")
-        element.send_keys("FuckyouQuizlet1!")
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/button")
-        while(element.get_attribute('disabled')):
-            pass
-        element.click()
-        while(whichDriver.current_url != SiteAfterLog):
-            pass
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[3]/main/div/section[1]/section[1]/div/div[3]/div/div/button/span")
-        element.click()
-    else:
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[3]/div/header/div/div[3]/div[2]/button/span")
-        element.click()
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div/label[1]/div/input")
-        element.send_keys(whichEmail)
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/div/label[2]/div[1]/input")
-        element.send_keys("FuckyouQuizlet1!")
-        element = whichDriver.find_element(By.XPATH,"/html/body/div[10]/div/div/div[2]/section/div[2]/div/form/button")
-        element.click()
+        useEmail = emailMAIN
+    targetElement = WebDriverWait(driverTarget,10).until(EC.presence_of_element_located((By.XPATH,'//*[@id="TopNavigationReactTarget"]/header/div/div[3]/div[3]/button')))
+    targetElement.click()
+    for i in range(0,3):
+        sub_target = ["birth_month","birth_day","birth_year"][i]
 
-driverMAIN = webdriver.Chrome("window-size=1200x600")
-driverALT = webdriver.Chrome("window-size=1200x600")
-driverALT.get("https://www.minuteinbox.com/")
-driverMAIN.get("https://www.fakemail.net/")
-targetElement = driverMAIN.find_element(By.XPATH,"/html/body/div[2]/div[2]/div[1]/div[1]/span[1]")
-emailMAIN = targetElement.text
-targetElement = driverALT.find_element(By.XPATH,"/html/body/div[1]/div[3]/div/div[1]/p[2]/span")
-emailALT = targetElement.text
+        targetElement = Select(driverTarget.find_element(By.NAME,sub_target))
+        targetElement.select_by_index([1,1,29][i])
+    
+    targetElement = driverTarget.find_element(By.NAME,'email')
+    targetElement.send_keys(useEmail)
+    targetElement = driverTarget.find_element(By.NAME,'password1')
+    targetElement.send_keys("FuckyouQuizlet1!")
+    targetElement = WebDriverWait(driverTarget,10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"[type='submit']")))
+    driverTarget.execute_script("arguments[0].disabled = false", targetElement)
+    targetElement.click()
+    while(driverTarget.current_url == "https://quizlet.com/goodbye"):
+        pass
+    if(targetElement==driverMAIN):
+        targetElement = driverTarget.find_element(By.CSS_SELECTOR,"[aria-label='Continue to free Quizlet']")
+        targetElement.click()
+
+
+
+#Phase 0: Set up Windows
+options = Options()
+#ptions.headless = True
+options.add_argument('--window-size=1920,1080')
+driverMAIN = webdriver.Chrome(options=options)
+driverMAIN.get("https://www.minuteinbox.com/") 
+driverALT = webdriver.Chrome(options=options)
+driverALT.get("https://www.fakemail.net/")
+
+#Phase 1: Grab emails and make first Quizlet acc
+emailMAIN = WebDriverWait(driverMAIN,10).until(EC.presence_of_element_located((By.XPATH,'//*[@id="email"]'))).text
+emailALT = WebDriverWait(driverALT,10).until(EC.presence_of_element_located((By.XPATH,'//*[@id="email"]'))).text
 for i in [driverMAIN,driverALT]:
     i.switch_to.new_window()
-    i.get("https://quizlet.com/goodbye")
-print("Phase 1 complete: Both emails recognized as "+emailALT+" and "+emailMAIN)
-signIn(driverMAIN,emailMAIN,"https://quizlet.com/goodbye",True,"https://quizlet.com/upgrade?source=signup&redir=https%3A%2F%2Fquizlet.com%2Fgoodbye",True)
-driverMAIN.switch_to.new_window()
+driverMAIN.get("https://quizlet.com/goodbye")
+signUp(driverMAIN)
+print("Phase 1 complete: Grab emails and make first Quizlet acc")
+
+#Phase 2: Grab referral link, make second Quizlet account with ref link
 driverMAIN.get("https://quizlet.com/refer-a-friend")
 targetElement = driverMAIN.find_element(By.XPATH,"/html/body/div[3]/main/div/div/div[2]/div/div[2]/div[1]/label/input")
 refLink = targetElement.get_property("value")
-print(refLink+" recognized as ref link.")
 driverALT.get(refLink)
-signIn(driverALT,emailALT,refLink,False,"https://quizlet.com/upgrade?source=signup&redir=%2F",True)
-print("Phase 2 complete: Both emails init, one with ref link")
-driverMAIN.switch_to.new_window()
-driverMAIN.get("https://www.fakemail.net/window/id/2")
-driverMAIN.switch_to.frame("iframeMail")
-targetElement = driverMAIN.find_element(By.XPATH,"/html/body/table/tbody/tr/td/table[2]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/a")
-targetElement.click()
-driverALT.switch_to.new_window()
-driverALT.get("https://www.minuteinbox.com/")
-driverALT.refresh()
-driverALT.get("https://www.minuteinbox.com/window/id/2")
+signUp(driverALT)
+print("Phase 2 complete: Grab referral link, make second Quizlet account with ref link")
+
+#Phase 3: Confirm both emails, print outcome
+driverALT.get("https://www.fakemail.net/window/id/2")
+while "404" in driverALT.title:
+    driverALT.refresh()
 driverALT.switch_to.frame("iframeMail")
-targetElement = driverALT.find_element(By.XPATH,"/html/body/table/tbody/tr/td/table[2]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/a")
+targetElement = driverALT.find_element(By.PARTIAL_LINK_TEXT, "Confirm your email")
 targetElement.click()
-driverMAIN.refresh()
-driverMAIN.switch_to.new_window()
-driverMAIN.get("https://quizlet.com/explanations/textbook-solutions/calculus-early-transcendentals-9th-edition-9781337613927")
-driverMAIN.refresh()
-driverMAIN.refresh()
+
+print("Final phase complete. Your login:")
+print(emailMAIN)
+print("FuckyouQuizlet1!")
+pc.copy(emailMAIN + "FuckyouQuizlet1!")
+
+
+
+#Forces code to persist. Maybe not needed for empty version.
 while True:
     if (keyboard.is_pressed("x") and keyboard.is_pressed("z")):
         print('STOP THE CODE')
